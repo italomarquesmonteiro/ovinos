@@ -122,4 +122,52 @@ ggsave(
     dpi = 1200)
 ```
 
+```{r}
+ovino_rs <- df_ovino |>
+    dplyr::filter(name_state == "Rio Grande do Sul" &
+    !quantidade_animais == "NA") |>
+     dplyr::mutate(
+        cab_ovino_rs = cut(quantidade_animais,
+            breaks = c(0, 5000, 10000, 20000, 100000, 200000, 300000, Inf),
+            labels = c("< 100", "500 - 1000",
+             "10000 - 50000", "50000 - 100000",
+         "100000 - 160000", "200000 - 300000", "30000 - 302000")
+            )
+    ) |>
+    ggplot2::ggplot() +
+    geom_sf(aes(fill = factor(cab_ovino_rs))) +
+    scale_fill_viridis_d() +
+    theme(legend.position = c(0.2, 0.2),
+    panel.grid.major = element_line(colour = "gray95"),
+    panel.background = element_rect(fill = "gray95"),
+    legend.background = element_rect(
+        fill = "grey95", colour = "gray95", size = 1)) +
+    labs(
+        fill = "Número de animais",
+        x = "Longitude",
+        y = "Latitude") +
+    annotate("text", x = -54, y = -27, color = "gray30", size = 8,
+        label = "Efetivo equino do Rio Grande do Sul - BR") +
+    annotate("text", x = -50.8, y = -32.5, color = "gray40", size = 5,
+        label = "Pesquisa pecuária municipal (2019)") +
+    annotate("text", x = -51, y = -33,
+    label = "Source: IBGE [open data(2023)]
+    by Ítalo Monteiro" , color = "gray50") +
+    ggspatial::annotation_scale(
+      height = unit(0.2, "cm"),
+      pad_x = unit(15, "cm"),
+      pad_y = unit(0.5, "cm")) +
+    ggspatial::annotation_north_arrow(
+      width = unit(0.7, "cm"),
+      height = unit(0.9, "cm"),
+      pad_x = unit(17.5, "cm"),
+      pad_y = unit(1, "cm"))
+ovino_rs
+```
 
+```{r}
+ggsave(
+    "C:/Users/italo/OneDrive/Área de Trabalho/GitHub/ovinos/Image/ovino_rs.png",
+    plot = ovino_rs,
+    dpi = 1200)
+```
