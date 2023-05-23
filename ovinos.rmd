@@ -72,7 +72,7 @@ df_ovino <- municipios_br |>
 ```
 
 ```{r}
-df_ovino |>
+ovino_br <- df_ovino |>
     dplyr::filter(!quantidade_animais == "NA") |>
     dplyr::mutate(
         cab_ovino = cut(quantidade_animais,
@@ -111,6 +111,15 @@ df_ovino |>
       height = unit(0.9, "cm"),
       pad_x = unit(19, "cm"),
       pad_y = unit(1, "cm"))
+ovino_br
+```
+
+
+```{r}
+ggsave(
+    "C:/Users/italo/OneDrive/Área de Trabalho/GitHub/ovinos/Image/ovino_br.png",
+    plot = ovino_br,
+    dpi = 1200)
 ```
 
 
